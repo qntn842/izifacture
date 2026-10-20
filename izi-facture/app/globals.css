@@ -1,0 +1,86 @@
+@import "tailwindcss";
+@import "./dark-theme.css";
+
+/*
+ * Effets de survol sur téléphone :
+ * - souris (PC) : les classes hover: s'appliquent au survol, comme avant
+ * - écran tactile : pas de survol possible, elles s'appliquent pendant l'appui du doigt
+ * S'applique aussi à group-hover:, peer-hover:, etc.
+ */
+@custom-variant hover {
+  @media (hover: hover) {
+    &:hover {
+      @slot;
+    }
+  }
+  @media (hover: none) {
+    &:active {
+      @slot;
+    }
+  }
+}
+
+/* Mode sombre piloté par la classe .dark sur <html> (bouton "Mode sombre" de la sidebar) */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Supprime le flash gris/bleu par défaut au toucher, remplacé par nos effets */
+html {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/*
+ * Couleurs de fond de l'app (redéfinies en mode sombre dans dark-theme.css) :
+ * bg-page = fond principal, bg-sidebar = barre latérale, bg-surface = cartes, header, modals
+ * brand-hover / brand-active = bleu IZI au survol / à l'appui (identiques dans les deux thèmes)
+ */
+@theme {
+  --color-page: #f8f9fc;
+  --color-sidebar: #f8f9fb;
+  --color-surface: #ffffff;
+  --color-brand-hover: oklch(48.8% 0.243 264.376);
+  --color-brand-active: oklch(42.4% 0.199 265.638);
+}
+
+:root {
+  --background: var(--color-page);
+  --foreground: var(--color-slate-900);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* Impression (bouton "Imprimer") : seule la facture affichée dans la page est imprimée */
+@media print {
+  @page {
+    size: A4;
+    margin: 10mm;
+  }
+  body * {
+    visibility: hidden;
+  }
+  main #invoice-print-area,
+  main #invoice-print-area * {
+    visibility: visible;
+  }
+  main #invoice-print-area {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}

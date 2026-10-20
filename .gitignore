@@ -1,0 +1,10 @@
+# Sécurité : ne jamais publier de clés ou de mots de passe
+.env*
+
+# Dépendances et fichiers générés
+node_modules/
+.next/
+
+# Système
+.DS_Store
+Thumbs.db
