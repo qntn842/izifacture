@@ -32,6 +32,12 @@ L'utilisateur peut :
 - Choix validés par le propriétaire : **1 entreprise par compte** (table `company_members` prête pour l'équipe plus tard), **compte vide** à l'inscription, **confirmation par email ACTIVÉE** depuis le 20/10/2026 (voir section 4 « Comptes »).
 - Sécurité RLS testée avec plusieurs comptes : chacun ne voit que son entreprise ; un visiteur non connecté n'a accès à rien.
 
+### Code source (GitHub)
+- Dépôt **public** : https://github.com/qntn842/izifacture (branche `main`). Tout le dossier « IZI FACTURE » y est : `GEMINI.md`, `CLAUDE.md` et l'app `izi-facture/`.
+- Les commits sont signés `qntn842 <336078167+qntn842@users.noreply.github.com>` (adresse anonyme GitHub : l'email personnel n'est pas publié).
+- ⚠️ Dépôt public : **ne jamais committer de secret**. `.env.local` (clés Supabase) est exclu par les `.gitignore` ; vérifier `git diff --cached --name-only` avant chaque envoi.
+- L'authentification Git se fait via le gestionnaire d'identifiants Windows (compte `qntn842`). L'outil `gh` (GitHub CLI) n'est pas installé : créer un dépôt ou une pull request se fait sur github.com.
+
 ### Historique
 - Projet commencé avec **Gemini**, puis repris avec **Claude** (Claude Code) le 18/10/2026.
 - Le propriétaire du projet communique **en français**. Toujours lui répondre en français, avec des explications simples et concrètes.
@@ -453,4 +459,5 @@ Un écouteur `touchstart` vide dans `DashboardLayout` active `:active` sur iOS S
 | 19/10/2026 | **Supabase** : schéma, RLS, déclencheur d'inscription, `save_invoice`, retard automatique ; correctifs de l'analyseur de sécurité ; tests RLS avec 2 comptes. |
 | 20/10/2026 | **Application full stack** : `@supabase/ssr`, `proxy.ts`, pages Connexion / Inscription, déconnexion, `DataContext` branché sur Supabase (actions asynchrones + erreurs en français), types générés (`types/database.ts`), données de démo supprimées, états vides, test complet du parcours avec 2 comptes. |
 | 20/10/2026 | **Confirmation par email activée** : route `/auth/confirm`, écran « Vérifiez votre email », bouton « Renvoyer l'email », messages lien confirmé / expiré / compte non confirmé. |
+| 20/10/2026 | **Code publié sur GitHub** : https://github.com/qntn842/izifacture (branche `main`). |
 | 20/10/2026 | Correction des avertissements Next « Blocking Route » (`usePathname` dans la Sidebar, `useParams` sur `/factures/[id]`) : `<Suspense>` autour de la lecture de l'adresse + `factures/[id]/loading.tsx`. |
