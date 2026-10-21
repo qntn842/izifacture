@@ -2,8 +2,11 @@ import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 import type { Database } from '@/types/database';
 
-/** Pages accessibles sans être connecté */
-const PUBLIC_ROUTES = ['/connexion', '/inscription'];
+/** Pages de connexion : un utilisateur déjà connecté est renvoyé vers le tableau de bord */
+const AUTH_ROUTES = ['/connexion', '/inscription'];
+
+/** Landing page : visible par tout le monde, connecté ou non */
+const LANDING_ROUTE = '/';
 
 /**
  * Appelée par proxy.ts à chaque requête de page :
@@ -40,21 +43,21 @@ export async function updateSession(request: NextRequest) {
 
   const { pathname } = request.nextUrl;
 
-  // Liens reçus par email (/auth/confirm…) : toujours accessibles, sans redirection
-  if (pathname.startsWith('/auth/')) {
+  // Landing page et liens reçus par email (/auth/confirm…) : toujours accessibles, sans redirection
+  if (pathname === LANDING_ROUTE || pathname.startsWith('/auth/')) {
     return response;
   }
 
-  const isPublicRoute = PUBLIC_ROUTES.some((route) => pathname.startsWith(route));
+  const isAuthRoute = AUTH_ROUTES.some((route) => pathname.startsWith(route));
 
-  if (!isLoggedIn && !isPublicRoute) {
+  if (!isLoggedIn && !isAuthRoute) {
     const url = request.nextUrl.clone();
     url.pathname = '/connexion';
-    url.search = pathname !== '/' ? `?suite=${encodeURIComponent(pathname)}` : '';
+    url.search = `?suite=${encodeURIComponent(pathname)}`;
     return redirectWithCookies(url, response);
   }
 
-  if (isLoggedIn && isPublicRoute) {
+  if (isLoggedIn && isAuthRoute) {
     const url = request.nextUrl.clone();
     url.pathname = '/tableau-de-bord';
     url.search = '';

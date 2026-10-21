@@ -1,0 +1,68 @@
+.heading {
+  max-width: 48rem;
+  margin-bottom: 2.5rem;
+}
+
+.center {
+  margin-inline: auto;
+  text-align: center;
+}
+
+.eyebrow {
+  display: inline-block;
+  padding: 0.25rem 0.875rem;
+  border: 1px solid var(--lp-blue-border);
+  border-radius: 9999px;
+  background-color: var(--lp-blue-soft);
+  color: var(--lp-blue);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.eyebrowDark {
+  border-color: rgba(142, 197, 255, 0.3);
+  background-color: rgba(21, 93, 252, 0.18);
+  color: #8ec5ff;
+}
+
+.title {
+  margin: 1rem 0 0;
+  color: var(--lp-title);
+  font-size: clamp(1.875rem, 5.5vw, 3rem);
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+}
+
+.titleDark {
+  color: #ffffff;
+}
+
+.subtitle {
+  margin: 1rem 0 0;
+  color: var(--lp-text);
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+.subtitleDark {
+  color: var(--lp-dark-text);
+}
+
+@media (min-width: 640px) {
+  .heading {
+    margin-bottom: 3.5rem;
+  }
+
+  .subtitle {
+    font-size: 1.125rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .heading {
+    margin-bottom: 4.5rem;
+  }
+}

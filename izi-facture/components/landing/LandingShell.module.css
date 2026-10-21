@@ -1,0 +1,105 @@
+/*
+ * Socle de la landing page : variables de couleur (charte IZI FACTURE, voir DESIGN.md),
+ * police, fond. Toutes les sections lisent ces variables.
+ * La landing reste toujours en thème clair, même si l'app est en mode sombre.
+ */
+.shell {
+  /* Marque */
+  --lp-blue: #155dfc;
+  --lp-blue-hover: #1447e6;
+  --lp-blue-soft: rgba(21, 93, 252, 0.08);
+  --lp-blue-soft-strong: rgba(21, 93, 252, 0.14);
+  --lp-blue-border: rgba(21, 93, 252, 0.25);
+  --lp-indigo: #4f39f6;
+  --lp-gradient: linear-gradient(135deg, #155dfc 0%, #4f39f6 100%);
+
+  /* Neutres (ardoise) */
+  --lp-title: #0f172b;
+  --lp-text: #45556c;
+  --lp-muted: #62748e;
+  --lp-faint: #90a1b9;
+  --lp-border: #e2e8f0;
+  --lp-border-soft: rgba(226, 232, 240, 0.8);
+  --lp-bg: #f8f9fc;
+  --lp-bg-alt: #eef2f6;
+  --lp-surface: #ffffff;
+  --lp-surface-muted: #f8fafc;
+
+  /* Sombre */
+  --lp-dark: #0b0f17;
+  --lp-dark-card: #141a24;
+  --lp-dark-border: rgba(255, 255, 255, 0.1);
+  --lp-dark-text: #aab3c2;
+  --lp-dark-muted: #7c8799;
+
+  /* Statuts */
+  --lp-paid: #00bc7d;
+  --lp-paid-soft: rgba(0, 188, 125, 0.12);
+  --lp-paid-border: rgba(0, 188, 125, 0.3);
+  --lp-pending: #fe9a00;
+  --lp-pending-text: #bb4d00;
+  --lp-pending-soft: rgba(254, 154, 0, 0.12);
+  --lp-pending-border: rgba(254, 154, 0, 0.3);
+  --lp-late: #ff2056;
+  --lp-star: #fbbf24;
+
+  /* Ombres */
+  --lp-shadow-card: 0 1px 3px rgba(0, 0, 0, 0.02), 0 1px 2px rgba(0, 0, 0, 0.03);
+  --lp-shadow-soft: 0 20px 40px -15px rgba(15, 23, 43, 0.08);
+  --lp-shadow-float: 0 25px 50px -12px rgba(15, 23, 43, 0.12);
+  --lp-shadow-dark: 0 25px 40px -10px rgba(11, 15, 23, 0.5);
+  --lp-shadow-blue: 0 12px 28px -8px rgba(21, 93, 252, 0.45);
+
+  /* Rayons */
+  --lp-radius-sm: 0.5rem;
+  --lp-radius-md: 0.75rem;
+  --lp-radius-lg: 1rem;
+  --lp-radius-xl: 1.5rem;
+  --lp-radius-pill: 9999px;
+
+  /* Mouvement */
+  --lp-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --lp-ease: cubic-bezier(0.2, 0, 0.2, 1);
+
+  /* Hauteur de l'en-tête (ancres) */
+  --lp-header-height: 4rem;
+
+  color-scheme: light;
+  min-height: 100vh;
+  overflow-x: clip;
+  background-color: var(--lp-surface);
+  color: var(--lp-title);
+  font-family: var(--font-jakarta), 'Plus Jakarta Sans', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.5;
+}
+
+.shell ::selection {
+  background-color: var(--lp-blue);
+  color: #ffffff;
+}
+
+.shell :focus-visible {
+  outline: 2px solid var(--lp-blue);
+  outline-offset: 3px;
+  border-radius: 0.375rem;
+}
+
+/* Les sections ciblées par le menu ne passent pas sous l'en-tête collant */
+.shell section[id] {
+  scroll-margin-top: calc(var(--lp-header-height) + 1rem);
+}
+
+/* Défilement doux vers les ancres, uniquement sur la landing */
+@media (prefers-reduced-motion: no-preference) {
+  :global(html):has(.shell) {
+    scroll-behavior: smooth;
+  }
+}
+
+@media (min-width: 768px) {
+  .shell {
+    --lp-header-height: 4.5rem;
+  }
+}

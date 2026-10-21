@@ -1,0 +1,250 @@
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding: 2.5rem 0 4rem;
+  /* Anneaux concentriques très légers derrière le titre */
+  background-image:
+    radial-gradient(circle at 50% 30%, transparent 35%, rgba(15, 23, 43, 0.045) 35.3%, transparent 35.8%),
+    radial-gradient(circle at 50% 30%, transparent 55%, rgba(15, 23, 43, 0.035) 55.3%, transparent 55.8%);
+  background-size: 100% 100%;
+}
+
+/* Halo bleu diffus */
+.glow {
+  position: absolute;
+  top: 6rem;
+  left: 50%;
+  z-index: -1;
+  width: 44rem;
+  max-width: 140vw;
+  height: 30rem;
+  border-radius: 9999px;
+  background-image: radial-gradient(closest-side, rgba(21, 93, 252, 0.12), transparent);
+  filter: blur(40px);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+/* Zone titre + boutons : sert de repère aux cartes flottantes */
+.intro {
+  position: relative;
+}
+
+.content {
+  max-width: 56rem;
+  margin-inline: auto;
+  padding-top: 1rem;
+  text-align: center;
+}
+
+/* Entrée en cascade au chargement */
+.badge,
+.title,
+.subtitle,
+.ctas,
+.proof {
+  animation: rise 0.8s var(--lp-ease-out) both;
+}
+
+.title { animation-delay: 0.08s; }
+.subtitle { animation-delay: 0.16s; }
+.ctas { animation-delay: 0.24s; }
+.proof { animation-delay: 0.32s; }
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.75rem;
+  padding: 0.375rem 0.875rem;
+  border: 1px solid var(--lp-border);
+  border-radius: 9999px;
+  background-color: var(--lp-surface-muted);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  color: var(--lp-text);
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.pulse {
+  position: relative;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 9999px;
+  background-color: var(--lp-paid);
+}
+
+.pulse::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-color: var(--lp-paid);
+  animation: ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+.title {
+  margin: 0 0 1.5rem;
+  color: var(--lp-title);
+  font-size: clamp(2.375rem, 9vw, 5rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+}
+
+.highlight {
+  position: relative;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.highlightText {
+  position: relative;
+  z-index: 1;
+}
+
+/* Trait sous « comme un pro », qui se dessine au chargement */
+.underline {
+  position: absolute;
+  left: 0;
+  bottom: -0.35rem;
+  z-index: 0;
+  width: 100%;
+  height: 0.75rem;
+  color: var(--lp-blue);
+  opacity: 0.85;
+}
+
+.underline path {
+  stroke-dasharray: 320;
+  stroke-dashoffset: 320;
+  animation: draw 1s var(--lp-ease-out) 0.6s forwards;
+}
+
+.subtitle {
+  max-width: 42rem;
+  margin: 0 auto 2.25rem;
+  color: var(--lp-text);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+}
+
+.ctas {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.proof {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--lp-muted);
+  font-size: 0.75rem;
+}
+
+.proof strong {
+  color: var(--lp-title);
+}
+
+.proofAvatars {
+  display: flex;
+}
+
+.proofAvatars > * + * {
+  margin-left: -0.125rem;
+}
+
+.mockup {
+  max-width: 64rem;
+  margin: 3.5rem auto 0;
+  scroll-margin-top: calc(var(--lp-header-height) + 1rem);
+}
+
+@media (min-width: 640px) {
+  .hero {
+    padding: 3rem 0 5rem;
+  }
+
+  .badge {
+    font-size: 0.8125rem;
+  }
+
+  .subtitle {
+    font-size: 1.1875rem;
+  }
+
+  .ctas {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .proof {
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .mockup {
+    margin-top: 4.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero {
+    padding: 4rem 0 7rem;
+  }
+
+  .content {
+    padding-top: 2rem;
+  }
+
+  .mockup {
+    margin-top: 5rem;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(1.25rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes ping {
+  75%,
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .badge,
+  .title,
+  .subtitle,
+  .ctas,
+  .proof,
+  .pulse::after {
+    animation: none;
+  }
+
+  .underline path {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+}

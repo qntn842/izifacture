@@ -1,0 +1,157 @@
+.section {
+  position: relative;
+  overflow: hidden;
+  padding: 4.5rem 0;
+  border-block: 1px solid var(--lp-border-soft);
+  background-color: var(--lp-bg-alt);
+}
+
+.stepsWrap {
+  position: relative;
+}
+
+.steps {
+  position: relative;
+  display: grid;
+  gap: 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Ligne pointillée qui relie les étapes (PC) */
+.connector {
+  display: none;
+}
+
+/* Cartes de même hauteur sur une ligne */
+.fill {
+  height: 100%;
+}
+
+.step {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  padding: 2rem 1.5rem;
+  border: 1px solid var(--lp-border);
+  border-radius: var(--lp-radius-xl);
+  background-color: var(--lp-surface);
+  box-shadow: var(--lp-shadow-card);
+  text-align: center;
+  transition:
+    transform 0.3s var(--lp-ease-out),
+    box-shadow 0.3s ease;
+}
+
+.step:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--lp-shadow-soft);
+}
+
+.highlighted {
+  border: 2px solid var(--lp-blue);
+  box-shadow: 0 20px 40px -18px rgba(21, 93, 252, 0.35);
+}
+
+.number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  margin: 0 auto 1.5rem;
+  border: 1px solid var(--lp-border);
+  border-radius: 9999px;
+  background-color: #f1f5f9;
+  color: var(--lp-title);
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+.highlighted .number {
+  border-color: transparent;
+  background-image: var(--lp-gradient);
+  color: #ffffff;
+  box-shadow: var(--lp-shadow-blue);
+}
+
+.title {
+  margin: 0 0 0.75rem;
+  color: var(--lp-title);
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.description {
+  margin: 0;
+  color: var(--lp-text);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  margin-top: 1.5rem;
+  padding: 0.25rem 0.75rem;
+  border: 1px solid var(--lp-border);
+  border-radius: 9999px;
+  background-color: #f1f5f9;
+  color: var(--lp-text);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.pillBlue {
+  border-color: var(--lp-blue-border);
+  background-color: var(--lp-blue-soft);
+  color: var(--lp-blue);
+}
+
+.pillGreen {
+  border-color: var(--lp-paid-border);
+  background-color: var(--lp-paid-soft);
+  color: #007a55;
+}
+
+@media (min-width: 768px) {
+  .section {
+    padding: 6rem 0;
+  }
+
+  .steps {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+
+  .connector {
+    position: absolute;
+    top: 3.75rem;
+    left: 16%;
+    right: 16%;
+    display: block;
+    border-top: 2px dashed #cad5e2;
+  }
+
+  .step {
+    padding: 2.5rem 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .section {
+    padding: 8rem 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .step {
+    transition: none;
+  }
+
+  .step:hover {
+    transform: none;
+  }
+}

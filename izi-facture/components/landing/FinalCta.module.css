@@ -1,0 +1,107 @@
+.section {
+  padding: 3rem 0 4.5rem;
+  background-color: var(--lp-bg-alt);
+}
+
+/* Bandeau sombre, dans l'esprit de la bannière du tableau de bord */
+.banner {
+  position: relative;
+  overflow: hidden;
+  padding: 3rem 1.5rem;
+  border-radius: var(--lp-radius-xl);
+  background-image: linear-gradient(120deg, #0f172b 0%, #1d293d 45%, #1e1a4d 100%);
+  box-shadow: var(--lp-shadow-dark);
+  text-align: center;
+}
+
+/* Anneaux décoratifs */
+.banner::before,
+.banner::after {
+  content: '';
+  position: absolute;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 9999px;
+  pointer-events: none;
+}
+
+.banner::before {
+  top: -9rem;
+  right: -6rem;
+  width: 20rem;
+  height: 20rem;
+}
+
+.banner::after {
+  bottom: -12rem;
+  left: -8rem;
+  width: 24rem;
+  height: 24rem;
+}
+
+.glow {
+  position: absolute;
+  top: -6rem;
+  left: 50%;
+  width: 30rem;
+  height: 14rem;
+  border-radius: 9999px;
+  background-image: radial-gradient(closest-side, rgba(21, 93, 252, 0.45), transparent);
+  filter: blur(30px);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.content {
+  position: relative;
+  max-width: 40rem;
+  margin-inline: auto;
+}
+
+.title {
+  margin: 0;
+  color: #ffffff;
+  font-size: clamp(1.75rem, 5vw, 2.75rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+}
+
+.subtitle {
+  margin: 1rem 0 2rem;
+  color: var(--lp-dark-text);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.ctas {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .ctas {
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .subtitle {
+    font-size: 1.125rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .section {
+    padding: 4rem 0 6rem;
+  }
+
+  .banner {
+    padding: 4.5rem 3rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .section {
+    padding: 4rem 0 8rem;
+  }
+}

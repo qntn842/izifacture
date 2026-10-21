@@ -1,0 +1,53 @@
+.avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: 9999px;
+  color: #ffffff;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  user-select: none;
+}
+
+.xs {
+  width: 1.5rem;
+  height: 1.5rem;
+  font-size: 0.5625rem;
+}
+
+.sm {
+  width: 2rem;
+  height: 2rem;
+  font-size: 0.6875rem;
+}
+
+.md {
+  width: 2.5rem;
+  height: 2.5rem;
+  font-size: 0.8125rem;
+}
+
+.lg {
+  width: 3rem;
+  height: 3rem;
+  font-size: 0.9375rem;
+}
+
+.blue { background-image: linear-gradient(135deg, #155dfc, #4f39f6); }
+.emerald { background-image: linear-gradient(135deg, #00bc7d, #009689); }
+.amber { background-image: linear-gradient(135deg, #fe9a00, #ff6900); }
+.purple { background-image: linear-gradient(135deg, #9810fa, #e60076); }
+.cyan { background-image: linear-gradient(135deg, #0092b8, #155dfc); }
+
+.ring {
+  box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px var(--lp-blue-border);
+}
+
+.ringDark {
+  box-shadow: 0 0 0 2px var(--lp-dark-card), 0 0 0 4px rgba(21, 93, 252, 0.6);
+}
+
+.border {
+  box-shadow: 0 0 0 2px #ffffff;
+}

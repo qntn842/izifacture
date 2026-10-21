@@ -1,0 +1,125 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid transparent;
+  border-radius: var(--lp-radius-pill);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.25;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    transform 0.25s var(--lp-ease),
+    box-shadow 0.25s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.button:hover {
+  transform: translateY(-2px);
+}
+
+.button:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  transition: transform 0.25s var(--lp-ease);
+}
+
+.button:hover .iconTrailing {
+  transform: translateX(3px);
+}
+
+/* Variantes */
+.primary {
+  background-image: var(--lp-gradient);
+  color: #ffffff;
+  box-shadow: var(--lp-shadow-blue);
+}
+
+.primary:hover {
+  box-shadow: 0 18px 36px -10px rgba(21, 93, 252, 0.55);
+}
+
+.outline {
+  background-color: var(--lp-surface);
+  border-color: #cad5e2;
+  color: var(--lp-title);
+  box-shadow: var(--lp-shadow-card);
+}
+
+.outline:hover {
+  border-color: var(--lp-title);
+  background-color: var(--lp-surface-muted);
+}
+
+.ghost {
+  background-color: transparent;
+  color: var(--lp-text);
+}
+
+.ghost:hover {
+  background-color: var(--lp-blue-soft);
+  color: var(--lp-title);
+}
+
+.light {
+  background-color: #ffffff;
+  color: var(--lp-title);
+}
+
+.light:hover {
+  box-shadow: 0 16px 32px -12px rgba(0, 0, 0, 0.35);
+}
+
+.outlineLight {
+  background-color: transparent;
+  border-color: rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+}
+
+.outlineLight:hover {
+  border-color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+/* Tailles */
+.sm {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+}
+
+.lg {
+  padding: 0.9375rem 1.75rem;
+  font-size: 1rem;
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .lg {
+    padding: 1rem 2rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button,
+  .icon {
+    transition: none;
+  }
+
+  .button:hover,
+  .button:hover .iconTrailing {
+    transform: none;
+  }
+}

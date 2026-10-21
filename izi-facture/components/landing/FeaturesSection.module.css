@@ -1,0 +1,118 @@
+.section {
+  padding: 4.5rem 0;
+  border-top: 1px solid var(--lp-border-soft);
+  background-color: var(--lp-bg);
+}
+
+.grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.card {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  padding: 1.5rem;
+  border: 1px solid var(--lp-border-soft);
+  border-radius: var(--lp-radius-xl);
+  background-color: var(--lp-surface);
+  box-shadow: var(--lp-shadow-card);
+  transition:
+    transform 0.3s var(--lp-ease-out),
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+
+/* Liseré dégradé qui apparaît en haut de la carte au survol */
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background-image: var(--lp-gradient);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.45s var(--lp-ease-out);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  border-color: var(--lp-blue-border);
+  box-shadow: var(--lp-shadow-soft);
+}
+
+.card:hover::before {
+  transform: scaleX(1);
+}
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: var(--lp-radius-md);
+  background-color: var(--lp-blue-soft-strong);
+  color: var(--lp-blue);
+  transition: transform 0.35s var(--lp-ease-out);
+}
+
+.card:hover .icon {
+  transform: scale(1.08) rotate(-4deg);
+}
+
+.title {
+  margin: 1.25rem 0 0.5rem;
+  color: var(--lp-title);
+  font-size: 1.0625rem;
+  font-weight: 700;
+}
+
+.description {
+  margin: 0;
+  color: var(--lp-text);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+
+@media (min-width: 640px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .section {
+    padding: 6rem 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .section {
+    padding: 8rem 0;
+  }
+
+  .grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+  }
+
+  .card {
+    padding: 1.75rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .card::before,
+  .icon {
+    transition: none;
+  }
+
+  .card:hover,
+  .card:hover .icon {
+    transform: none;
+  }
+}

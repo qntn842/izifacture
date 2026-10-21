@@ -1,0 +1,33 @@
+/* Apparition en fondu vers le haut quand l'élément entre à l'écran */
+.reveal {
+  opacity: 0;
+  transform: translateY(1.5rem);
+  transition:
+    opacity 0.7s var(--lp-ease-out),
+    transform 0.7s var(--lp-ease-out);
+}
+
+.visible {
+  opacity: 1;
+  transform: none;
+}
+
+.delay1 {
+  transition-delay: 0.08s;
+}
+
+.delay2 {
+  transition-delay: 0.16s;
+}
+
+.delay3 {
+  transition-delay: 0.24s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

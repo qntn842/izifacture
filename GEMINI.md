@@ -29,7 +29,7 @@ L'utilisateur peut :
 - **Comptes utilisateurs** : inscription et connexion par email + mot de passe (8 caractères minimum). Toutes les pages sont protégées.
 - **Données dans Supabase** (PostgreSQL) : entreprise (= Paramètres), clients, factures et leurs lignes. Plus de localStorage pour les données ; seul le choix du thème clair/sombre reste dans le navigateur.
 - Projet Supabase : `aretkemjltjuimmuxmcc` (« qntn842's Project », région eu-west-2, projet de **test**).
-- Choix validés par le propriétaire : **1 entreprise par compte** (table `company_members` prête pour l'équipe plus tard), **compte vide** à l'inscription, **confirmation par email ACTIVÉE** depuis le 20/10/2026 (voir section 4 « Comptes »).
+- Choix validés par le propriétaire : **1 entreprise par compte** (table `company_members` prête pour l'équipe plus tard), **compte vide** à l'inscription, **confirmation par email DÉSACTIVÉE pour les tests** (réglage Supabase `mailer_autoconfirm = true`, demandé par le propriétaire le 20/10/2026 ; tout le code de confirmation reste en place, voir section 4 « Comptes »).
 - Sécurité RLS testée avec plusieurs comptes : chacun ne voit que son entreprise ; un visiteur non connecté n'a accès à rien.
 
 ### Code source (GitHub)
@@ -73,6 +73,7 @@ npm run build     # build de production
 IZI FACTURE/
 ├── GEMINI.md                         ← CE FICHIER (référence du projet)
 ├── CLAUDE.md                         ← renvoie vers ce fichier (lu automatiquement par Claude Code)
+├── DESIGN.md                         ← charte graphique complète (couleurs, typo, composants) pour IA / designers
 ├── .agents/rules/dashboard-design-system.md   ← règles de design (copie, voir section 6)
 └── izi-facture/                      ← l'application Next.js
     ├── AGENTS.md                     ← avertissement Next 16 (généré par `next dev`, ne pas supprimer)
@@ -85,7 +86,7 @@ IZI FACTURE/
     │
     ├── app/
     │   ├── layout.tsx                ← <html>, polices, script anti-flash du thème sombre
-    │   ├── page.tsx                  ← redirige "/" vers /tableau-de-bord
+    │   ├── (marketing)/              ← landing page publique "/" (layout : police Plus Jakarta Sans + LandingShell)
     │   ├── globals.css               ← Tailwind, tokens de couleur, variantes hover/dark, CSS d'impression
     │   ├── dark-theme.css            ← palette du mode sombre (fichier GÉNÉRÉ, voir section 6.6)
     │   ├── (auth)/                   ← pages publiques : connexion/, inscription/ (+ layout carte centrée)
@@ -110,6 +111,7 @@ IZI FACTURE/
     │   │   └── MobileMenuContext.tsx ← ouverture/fermeture du menu sur téléphone
     │   ├── ui/                       ← Button, Card, Badge (statut de facture)
     │   ├── dashboard/                ← KpiCard, RecentInvoicesTable
+    │   ├── landing/                  ← composants de la landing page, chacun avec son .module.css (voir section 4)
     │   ├── auth/AuthFields.tsx       ← champs, erreurs et traduction des erreurs de connexion
     │   ├── auth/ResendConfirmationButton.tsx ← « Renvoyer l'email de confirmation »
     │   ├── clients/AddClientModal.tsx        ← fenêtre « Ajouter un client » (réutilisée sur 2 pages)
@@ -134,9 +136,16 @@ IZI FACTURE/
 
 ## 4. Fonctionnalités implémentées
 
+### Landing page — `/` (publique)
+- Accessible à tous, connecté ou non (`proxy.ts` laisse passer `/`). Boutons « Connexion » → `/connexion`, « S'inscrire » / « Commencer » / offres → `/inscription`.
+- Sections (un composant chacune, dans `components/landing/`) : `LandingHeader`, `Hero` (+ `FloatingCard`, `DashboardMockup`), `ProblemSection` (#probleme), `FeaturesSection` (#fonctionnalites), `HowItWorks` (#comment-ca-marche), `Testimonials` (#temoignages), `Pricing` (#tarifs + moyens de paiement), `FinalCta`, `LandingFooter`. Briques : `LandingShell`, `Container`, `Logo`, `LandingButton`, `SectionHeading`, `Avatar`, `Reveal`.
+- **Styles : CSS Modules uniquement** (`*.module.css`, aucun style en ligne, pas de Tailwind), écrits **mobile first** (`min-width` 640 / 768 / 1024 / 1280 px). Les couleurs de la charte sont des variables `--lp-…` définies dans `LandingShell.module.css`. La landing reste toujours en thème clair.
+- Animations : en-tête qui glisse à l'arrivée, devient compact et ombré au défilement (PC), barre de progression de lecture (CSS `animation-timeline`, navigateurs compatibles), soulignement animé + lien de la section visible ; menu mobile ☰ → ✕ avec liens en cascade ; titre en cascade + trait dessiné ; cartes flottantes ; apparitions au défilement (`Reveal`). Toutes désactivées si l'utilisateur a demandé moins d'animations (`prefers-reduced-motion`).
+- ⚠️ Contenu marketing fourni par le propriétaire : les **témoignages et les offres (Gratuit / Pro 5 000 / Business 15 000 FCFA)** sont fictifs, et certaines promesses des offres ne sont **pas encore construites** (devis, relance WhatsApp, logo personnalisé, multi-utilisateurs, abonnement payant). Les sections « Pourquoi » et « Fonctionnalités » ne décrivent que des fonctions réelles.
+
 ### Comptes — `/connexion`, `/inscription`
 - **Inscription** : nom de l'entreprise, votre nom, email, mot de passe (8 caractères min.). L'entreprise est créée automatiquement avec les réglages par défaut (FCFA XOF, TVA 18 %, préfixe FACT, 30 jours).
-- **Confirmation par email** : après l'inscription, écran « Vérifiez votre email » (+ bouton « Renvoyer l'email de confirmation »). Le lien de l'email mène à `/auth/confirm` (route `app/auth/confirm/route.ts`), qui connecte l'utilisateur et l'envoie sur un tableau de bord vide.
+- **Confirmation par email** (⚠️ actuellement DÉSACTIVÉE pour les tests : le compte est actif tout de suite et l'utilisateur arrive directement sur le tableau de bord. Pour la réactiver : Supabase → Authentication → Sign In / Providers → Email → « Confirm email », ou `mailer_autoconfirm = false` via l'API) : quand elle est active, après l'inscription, écran « Vérifiez votre email » (+ bouton « Renvoyer l'email de confirmation »). Le lien de l'email mène à `/auth/confirm` (route `app/auth/confirm/route.ts`), qui connecte l'utilisateur et l'envoie sur un tableau de bord vide.
   - Lien ouvert sur un autre navigateur que celui de l'inscription → `/connexion?confirme=1` (« Votre adresse email est confirmée. Connectez-vous… »).
   - Lien expiré ou déjà utilisé → `/connexion?erreur=lien` avec un message.
   - Connexion avant confirmation → « Confirmez votre adresse email… » + bouton « Renvoyer ».
@@ -265,6 +274,8 @@ C'est le même motif pour le client sélectionné, le numéro de facture, l'éch
 
 ## 6. Design system (règles à respecter)
 
+> La charte graphique complète (codes couleur hex clair/sombre, typographie, recettes de composants) est dans **`DESIGN.md`** à la racine. Ci-dessous : l'essentiel.
+
 ### 6.1 Règle d'or
 **Toute page doit reproduire le style du tableau de bord** : le même `DashboardLayout`, le même `Header`, les mêmes cartes, tableaux, badges et finitions (transitions douces, micro-animations au survol et au clic).
 
@@ -380,10 +391,11 @@ Un écouteur `touchstart` vide dans `DashboardLayout` active `:active` sur iOS S
 6. **ESLint** : des erreurs anciennes restent. Ce sont surtout des apostrophes non échappées dans le JSX (`'` → `&apos;`) et un `setState` dans un `useEffect` (page « Modifier une facture »). `tsc` passe sans erreur.
 7. Ne pas supprimer le bloc de `AGENTS.md` : `next dev` le recrée.
 8. Les adresses `/auth/…` (liens reçus par email) sont laissées passer par `proxy.ts` sans redirection, connecté ou non.
-9. **Next 16 : `middleware.ts` est remplacé par `proxy.ts`** (fonction exportée `proxy`). La logique est dans `lib/supabase/proxy.ts`. Ne rien exécuter entre `createServerClient` et `supabase.auth.getClaims()`.
-10. **Modifier `.env.local` impose de redémarrer `npm run dev`.**
-11. **Ne jamais utiliser la clé `secret` / `service_role` de Supabase dans l'app** : elle contourne toute la sécurité RLS. Seule la clé publique `sb_publishable_…` va dans `.env.local`.
-12. Les pages `(dashboard)` doivent toujours être rendues (voir section 5) : pas d'écran de chargement à la place de `{children}`.
+9. **CSS Modules et `next.config.ts`** : la règle Turbopack qui branche Tailwind exclut les fichiers `*.module.css` (`condition: { not: { path: /\.module\.css$/ } }`). Sans cette exclusion, les classes des CSS Modules valent `undefined`. Ne pas retirer cette condition.
+10. **Next 16 : `middleware.ts` est remplacé par `proxy.ts`** (fonction exportée `proxy`). La logique est dans `lib/supabase/proxy.ts`. Ne rien exécuter entre `createServerClient` et `supabase.auth.getClaims()`.
+11. **Modifier `.env.local` impose de redémarrer `npm run dev`.**
+12. **Ne jamais utiliser la clé `secret` / `service_role` de Supabase dans l'app** : elle contourne toute la sécurité RLS. Seule la clé publique `sb_publishable_…` va dans `.env.local`.
+13. Les pages `(dashboard)` doivent toujours être rendues (voir section 5) : pas d'écran de chargement à la place de `{children}`.
 
 ---
 
@@ -459,5 +471,7 @@ Un écouteur `touchstart` vide dans `DashboardLayout` active `:active` sur iOS S
 | 19/10/2026 | **Supabase** : schéma, RLS, déclencheur d'inscription, `save_invoice`, retard automatique ; correctifs de l'analyseur de sécurité ; tests RLS avec 2 comptes. |
 | 20/10/2026 | **Application full stack** : `@supabase/ssr`, `proxy.ts`, pages Connexion / Inscription, déconnexion, `DataContext` branché sur Supabase (actions asynchrones + erreurs en français), types générés (`types/database.ts`), données de démo supprimées, états vides, test complet du parcours avec 2 comptes. |
 | 20/10/2026 | **Confirmation par email activée** : route `/auth/confirm`, écran « Vérifiez votre email », bouton « Renvoyer l'email », messages lien confirmé / expiré / compte non confirmé. |
+| 21/10/2026 | **Landing page** publique sur `/` : composants `components/landing/` en CSS Modules mobile first, animations de l'en-tête ; `next.config.ts` corrigé pour que les CSS Modules fonctionnent ; création de `DESIGN.md` (charte graphique). |
+| 20/10/2026 | Confirmation par email **désactivée pour les tests** (à la demande du propriétaire) ; le code reste prêt pour la réactiver. |
 | 20/10/2026 | **Code publié sur GitHub** : https://github.com/qntn842/izifacture (branche `main`). |
 | 20/10/2026 | Correction des avertissements Next « Blocking Route » (`usePathname` dans la Sidebar, `useParams` sur `/factures/[id]`) : `<Suspense>` autour de la lecture de l'adresse + `factures/[id]/loading.tsx`. |
