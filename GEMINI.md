@@ -396,6 +396,7 @@ Un écouteur `touchstart` vide dans `DashboardLayout` active `:active` sur iOS S
 11. **Modifier `.env.local` impose de redémarrer `npm run dev`.**
 12. **Ne jamais utiliser la clé `secret` / `service_role` de Supabase dans l'app** : elle contourne toute la sécurité RLS. Seule la clé publique `sb_publishable_…` va dans `.env.local`.
 13. Les pages `(dashboard)` doivent toujours être rendues (voir section 5) : pas d'écran de chargement à la place de `{children}`.
+14. **L'état des pages survit à la navigation** (Next 16 + Cache Components : les pages quittées sont cachées avec React `<Activity>`, pas détruites). Les `useState`, champs saisis et fenêtres ouvertes sont **retrouvés tels quels** en revenant sur la page. Pour un formulaire de création qui doit repartir de zéro après un enregistrement réussi, suivre le modèle de `factures/nouvelle/page.tsx` : un `useRef` « à réinitialiser » passé à `true` après l'enregistrement + un `useLayoutEffect` dont la fonction de nettoyage remet tous les états à zéro (doc : `node_modules/next/dist/docs/01-app/02-guides/preserving-ui-state.md`).
 
 ---
 
@@ -471,6 +472,7 @@ Un écouteur `touchstart` vide dans `DashboardLayout` active `:active` sur iOS S
 | 19/10/2026 | **Supabase** : schéma, RLS, déclencheur d'inscription, `save_invoice`, retard automatique ; correctifs de l'analyseur de sécurité ; tests RLS avec 2 comptes. |
 | 20/10/2026 | **Application full stack** : `@supabase/ssr`, `proxy.ts`, pages Connexion / Inscription, déconnexion, `DataContext` branché sur Supabase (actions asynchrones + erreurs en français), types générés (`types/database.ts`), données de démo supprimées, états vides, test complet du parcours avec 2 comptes. |
 | 20/10/2026 | **Confirmation par email activée** : route `/auth/confirm`, écran « Vérifiez votre email », bouton « Renvoyer l'email », messages lien confirmé / expiré / compte non confirmé. |
+| 21/10/2026 | Correction : « Nouvelle facture » réaffichait la facture précédente et sa fenêtre de succès (état conservé par Next 16). Le formulaire est maintenant remis à zéro après chaque enregistrement réussi. |
 | 21/10/2026 | **Landing page** publique sur `/` : composants `components/landing/` en CSS Modules mobile first, animations de l'en-tête ; `next.config.ts` corrigé pour que les CSS Modules fonctionnent ; création de `DESIGN.md` (charte graphique). |
 | 20/10/2026 | Confirmation par email **désactivée pour les tests** (à la demande du propriétaire) ; le code reste prêt pour la réactiver. |
 | 20/10/2026 | **Code publié sur GitHub** : https://github.com/qntn842/izifacture (branche `main`). |

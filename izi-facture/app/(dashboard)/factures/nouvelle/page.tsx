@@ -1,6 +1,6 @@
 'use client';
 
-import React, { use, useState } from 'react';
+import React, { use, useLayoutEffect, useRef, useState } from 'react';
 import { io } from 'next/cache';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -79,6 +79,33 @@ export default function NouvelleFacturePage() {
   // Mobile / Desktop preview toggle state (inspired by the screenshot "Show Preview")
   const [showPreviewMobile, setShowPreviewMobile] = useState(true);
   const [activeTabMobile, setActiveTabMobile] = useState<'form' | 'preview'>('form');
+
+  /*
+   * Next 16 (Cache Components) ne détruit plus la page quand on la quitte : il la cache et
+   * conserve son état. Sans remise à zéro, revenir sur « Nouvelle facture » réaffichait la
+   * facture précédente (et sa fenêtre « Facture créée avec succès »).
+   * Après un enregistrement réussi, le formulaire est donc vidé dès que la page est quittée.
+   * Un brouillon non enregistré, lui, est conservé.
+   */
+  const shouldResetRef = useRef(false);
+  useLayoutEffect(() => {
+    return () => {
+      if (!shouldResetRef.current) return;
+      shouldResetRef.current = false;
+      setInvoiceNumber(null);
+      setSelectedClientId(null);
+      setIssueDate(new Date().toISOString().split('T')[0]);
+      setDueDate(null);
+      setNotes(null);
+      setDiscountRate(0);
+      setShowDiscount(false);
+      setItems([{ id: 'it-1', description: '', quantity: 1, unit_price: 0, line_total: 0 }]);
+      setCreatedInvoice(null);
+      setSaveError(null);
+      setShowAddClientModal(false);
+      setActiveTabMobile('form');
+    };
+  }, []);
 
   // Find currently selected client object
   const currentClient = clients.find((c) => c.id === selectedClientId);
@@ -185,6 +212,8 @@ export default function NouvelleFacturePage() {
     }
 
     setSavingStatus(null);
+    // Facture enregistrée : le formulaire repartira vide à la prochaine visite
+    shouldResetRef.current = true;
     if (status === 'brouillon') {
       router.push(`/factures/${newInv.id}`);
       return;
